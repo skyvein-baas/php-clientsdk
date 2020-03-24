@@ -4,11 +4,11 @@ require_once('http.php');
 require_once('client.php');
 use baas\Core\BaseClient;
 
-$uri = "http://122.224.183.34:31374";
+$uri = "http://ip:port";
 // $uri = "http://localhost:8080";
 $cli = new BaseClient($uri);
-$acct = "15188889999";
-$pwd = "xiaobai233";
+$acct = "";
+$pwd = "";
 try {
 	$ret = $cli->Login($acct, $pwd);
 } catch (Exception $e) {
@@ -31,10 +31,11 @@ try {
 	return;
 }
 if ($retI["status"] != 1) {
+	// 读取错误原因
 	var_dump($retI["msg"]);
 	return;
 }
-
+// 响应结果
 var_dump($retI["data"][0]);
 echo "invoke success\n";
 
@@ -47,9 +48,11 @@ try {
 	return;
 }
 if ($retQ["status"] != 1) {
+	// 读取错误原因
 	var_dump($retQ["msg"]);
 	return;
 }
+// 响应结果
 var_dump($retQ["data"][0]);
 echo "query success\n";
 ?>
