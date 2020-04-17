@@ -5,10 +5,10 @@ require_once('client.php');
 use baas\Core\BaseClient;
 
 $uri = "http://ip:port";
-// $uri = "http://localhost:8080";
 $cli = new BaseClient($uri);
 $acct = "";
 $pwd = "";
+
 try {
 	$ret = $cli->Login($acct, $pwd);
 } catch (Exception $e) {
@@ -19,6 +19,19 @@ if (!$ret) {
 	var_dump($ret);
 	return;
 }
+
+// 用密钥登录
+try {
+	$ret = $cli->GetToken($cli->addr, $cli->prik, $cli->pubk, $cli->mnem);
+} catch (Exception $e) {
+	var_dump($e);
+	return;
+}
+if (!$ret) {
+	var_dump($ret);
+	return;
+}
+
 echo "loggin success\n";
 
 $cont = "mycounter";

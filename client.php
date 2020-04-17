@@ -9,8 +9,11 @@ class BaseClient
 	public $node;
 	public $logged = false; 
 	public $token;
-	public $acct;
-	public $pwdMd5;
+    public $addr;
+    public $prik;
+    public $pubk;
+    public $mnem;
+
 	function  __construct($nodeuri)
     {
         $this->node = $nodeuri;
@@ -27,14 +30,28 @@ class BaseClient
     	$ret = HttpHelper::curl($requestUrl, "POST", $jsonStr);
     	$retArr=json_decode($ret->getBody(), true);
     	if ($retArr["status"]==1) {
-    		if ($retArr["data"][0]["token"]) {
-    			$this->logged = true;
-    			$this->token = $retArr["data"][0]["token"];
-    			$this->acct = $acct;
-    			$this->pwdMd5 = $pwd;
-    		}
+    		$this->addr = $retArr["data"][0]["address"];
+            $this->prik = $retArr["data"][0]["prikey"];
+            $this->pubk = $retArr["data"][0]["pubkey"];
+            $this->mnem = $retArr["data"][0]["mnemonic"];
     	}
     	return $retArr;
+    }
+
+    public function GetToken($addr, $prik, $pubk, $mnem)
+    {
+        $requestUrl = $this->node."/v1/gettoken";
+        $jsonStr = json_encode(array('address' => $addr, 'prikey' => $prik, 'pubkey' => $pubk, 'mnemonic' => $mnem));
+        // throw
+        $ret = HttpHelper::curl($requestUrl, "POST", $jsonStr);
+        $retArr=json_decode($ret->getBody(), true);
+        if ($retArr["status"]==1) {
+            if ($retArr["data"][0]["token"]) {
+                $this->logged = true;
+                $this->token = $retArr["data"][0]["token"];
+            }
+        }
+        return $retArr;
     }
 
     public function Invoke($cont, $method, $args=null)
