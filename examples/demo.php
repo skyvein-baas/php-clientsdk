@@ -4,7 +4,7 @@ require_once('http.php');
 require_once('client.php');
 use baas\Core\BaseClient;
 
-$uri = "http://ip:port";
+$uri = "http://$ip:$port";
 $cli = new BaseClient($uri);
 $acct = "";
 $pwd = "";
@@ -34,7 +34,7 @@ if (!$ret) {
 
 echo "loggin success\n";
 
-$cont = "mycounter";
+$cont = "counter1";
 $method = "increase";
 $args = array("key"=>"sq");
 try {

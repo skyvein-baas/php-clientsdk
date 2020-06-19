@@ -11,7 +11,7 @@
 
 ## samples
 ```bash
-git clone http://git.skyvein.net:30041/service/baas_clientphpsdk.git
+git clone https://github.com/skyvein-baas/php-clientsdk.git
 
 cd baas_clientphpsdk
 
